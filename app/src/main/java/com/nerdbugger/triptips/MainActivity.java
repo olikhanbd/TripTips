@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 
 import com.nerdbugger.triptips.adapters.MainAdapter;
 import com.nerdbugger.triptips.models.LocationsModel;
@@ -13,6 +14,7 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
 
     RecyclerView rv;
+    Toolbar toolbar;
 
     ArrayList<LocationsModel> locationsModels;
 
@@ -24,6 +26,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         locationsModels = new ArrayList<>();
+        toolbar = findViewById(R.id.maintb);
+        setSupportActionBar(toolbar);
 
         rv = (RecyclerView) findViewById(R.id.rv);
         rv.setLayoutManager(new GridLayoutManager(this, 2));

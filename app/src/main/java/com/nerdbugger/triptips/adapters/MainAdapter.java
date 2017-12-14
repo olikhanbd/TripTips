@@ -2,13 +2,18 @@ package com.nerdbugger.triptips.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v7.widget.CardView;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.nerdbugger.triptips.LocationInfoActivity;
 import com.nerdbugger.triptips.R;
@@ -67,7 +72,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
                 break;
         }
 
-        holder.root.setOnClickListener(new View.OnClickListener() {
+        holder.iv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 int id = model.getLocationid();
@@ -79,6 +84,34 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
                 context.startActivity(intent);
             }
         });
+
+        holder.overflow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showpopup(view);
+            }
+        });
+    }
+
+    private void showpopup(View view) {
+        PopupMenu popupMenu = new PopupMenu(context, view);
+        MenuInflater inflater = popupMenu.getMenuInflater();
+        inflater.inflate(R.menu.menu_favourite, popupMenu.getMenu());
+
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+
+                switch (item.getItemId()) {
+                    case R.id.menu_item_fav:
+                        Toast.makeText(context, "Added to favourites", Toast.LENGTH_SHORT).show();
+                        return true;
+                }
+
+                return false;
+            }
+        });
+        popupMenu.show();
     }
 
     @Override
@@ -88,15 +121,14 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        LinearLayout root;
-        ImageView iv;
+        ImageView iv, overflow;
         TextView tv;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            root = itemView.findViewById(R.id.itemll);
-            iv = itemView.findViewById(R.id.locationIV);
-            tv = itemView.findViewById(R.id.locationNameTV);
+            iv = itemView.findViewById(R.id.thumbnail);
+            tv = itemView.findViewById(R.id.titletv);
+            overflow = itemView.findViewById(R.id.overflow);
         }
     }
 }
